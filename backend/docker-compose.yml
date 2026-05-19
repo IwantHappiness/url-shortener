@@ -1,0 +1,36 @@
+services:
+  url-postgres:
+    image: postgres:18.3-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./out/pgdata:/var/lib/postgresql
+    restart: always
+
+  url-migrate:
+    image: migrate/migrate:v4.19.1
+    container_name: url-migrate
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      url-postgres:
+        condition: service_healthy
+
+  port-forward:
+    image: alpine/socat:1.8.0.3
+    container_name: url-port-forward
+    command: tcp-listen:${POSTGRES_PORT},fork,reuseaddr tcp-connect:url-postgres:${POSTGRES_PORT}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:${POSTGRES_PORT}"
+    depends_on:
+      - url-postgres
+    restart: always

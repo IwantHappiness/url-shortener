@@ -4,7 +4,11 @@ CREATE TABLE url_shortener.users (
     id SERIAL PRIMARY KEY,
     version INTEGER NOT NULL DEFAULT 1,
     nickname VARCHAR(20) UNIQUE NOT NULL CHECK (char_length(nickname) BETWEEN 3 AND 20),
-    email VARCHAR(254) UNIQUE NOT NULL CHECK (char_length(email) >= 3),
+    email VARCHAR(254) UNIQUE NOT NULL CHECK (
+        email ~ '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$'
+        AND
+        char_length(email) >= 3
+    ),
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

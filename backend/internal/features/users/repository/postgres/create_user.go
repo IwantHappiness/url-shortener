@@ -11,7 +11,7 @@ func (r *UserRepository) CreateUser(ctx context.Context, user domain.User) (doma
 	ctx, cancel := context.WithTimeout(ctx, r.pool.OpTimeout())
 	defer cancel()
 
-	query := `INSERT INTO url_shortener.users (nickname, email) VALUES ($1, $2) RETURNING id, version, nickname, email, created_at`
+	query := `INSERT INTO url_shortener.users (nickname, email) VALUES ($1, $2) RETURNING id, version, nickname, email, created_at;`
 
 	row := r.pool.QueryRow(ctx, query, user.Nickname, user.Email)
 

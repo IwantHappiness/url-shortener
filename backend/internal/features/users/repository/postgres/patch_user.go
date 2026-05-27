@@ -18,7 +18,7 @@ func (r *UserRepository) PatchUser(ctx context.Context, id int, user domain.User
 	UPDATE url_shortener.users
 	SET nickname = $1, email = $2, version = version + 1
 	WHERE id = $3 AND version = $4
-	RETURNING id, version, nickname, email, created_at`
+	RETURNING id, version, nickname, email, created_at;`
 
 	row := r.pool.QueryRow(ctx, query, user.Nickname, user.Email, user.ID, user.Version)
 

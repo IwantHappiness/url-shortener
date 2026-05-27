@@ -3,10 +3,14 @@ export
 
 export PROJECT_ROOT = $(shell pwd)
 
-env-postgres-up:
+run-app:
+	@go mod tidy && \
+	go run ./cmd/api/main.go
+
+env-up:
 	@docker-compose up -d url-postgres
 
-env-postgres-down:
+env-down:
 	@docker-compose down url-postgres
 
 env-port-forward:
@@ -32,5 +36,5 @@ migrate-down:
 migrate-action:
 	@docker-compose run --rm url-migrate \
 	    -path ./migrations \
-	    -database postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable \
+	    -database postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@url-postgres:$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable \
 	    "$(action)"

@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
+	http_request "github.com/IwantHappiness/url-shortener/internal/core/transport/http/request"
 	http_response "github.com/IwantHappiness/url-shortener/internal/core/transport/http/response"
-	http_utils "github.com/IwantHappiness/url-shortener/internal/core/transport/http/utils"
 )
 
 type GetUsersResponse []UserDTOResponse
@@ -34,12 +34,12 @@ func (h *UsersHTTPHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetLimitOffsetQueryParams(r *http.Request) (*int, *int, error) {
-	limit, error := http_utils.GetIntQueryParams(r, "limit")
+	limit, error := http_request.GetIntQueryParams(r, "limit")
 	if error != nil {
 		return nil, nil, fmt.Errorf("get 'limit' query param: %w", error)
 	}
 
-	offset, error := http_utils.GetIntQueryParams(r, "offset")
+	offset, error := http_request.GetIntQueryParams(r, "offset")
 	if error != nil {
 		return nil, nil, fmt.Errorf("get 'offset' query param: %w", error)
 	}

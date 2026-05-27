@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
+	http_request "github.com/IwantHappiness/url-shortener/internal/core/transport/http/request"
 	http_response "github.com/IwantHappiness/url-shortener/internal/core/transport/http/response"
-	http_utils "github.com/IwantHappiness/url-shortener/internal/core/transport/http/utils"
 )
 
 func (h *UsersHTTPHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -13,7 +13,7 @@ func (h *UsersHTTPHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	log := logger.FromContext(ctx)
 	responseHandler := http_response.NewHTTPResponseHandler(log, w)
 
-	userId, err := http_utils.GetIntPathValue(r, "id")
+	userId, err := http_request.GetIntPathValue(r, "id")
 	if err != nil {
 		responseHandler.ErrorResponse(err, "failed to get user id path value")
 		return

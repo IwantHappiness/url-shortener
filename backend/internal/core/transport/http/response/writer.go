@@ -20,9 +20,9 @@ func (rw *ResponseWriter) WriteHeader(statusCode int) {
 	rw.ResponseWriter.WriteHeader(statusCode)
 }
 
-func (rw *ResponseWriter) GetStatusCodeOrPanic() int {
+func (rw *ResponseWriter) GetStatusCode() int {
 	if rw.statusCode == StatusCodeUninitialized {
-		panic("status code not set")
+		return http.StatusOK
 	}
 	return rw.statusCode
 }

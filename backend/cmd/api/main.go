@@ -50,8 +50,9 @@ func main() {
 		http_server.NewConfigMust(), log,
 		http_middleware.RequestId(),
 		http_middleware.Logger(log),
+		http_middleware.Trace(),
 		http_middleware.Panic(),
-		http_middleware.Trace())
+	)
 
 	apiVersionRouter := http_server.NewAPIVersionRouter(http_server.ApiVersion1)
 	apiVersionRouter.RegisterRoute(usersTransportHTTP.Routes()...)

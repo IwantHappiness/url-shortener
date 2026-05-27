@@ -59,7 +59,7 @@ func (p *UserPatch) Validate() error {
 		return fmt.Errorf("'Nickname' can't be patched to NULL: %w", core_errors.ErrInvalidArgument)
 	}
 
-	if p.Email.Set && p.Nickname.Value == nil {
+	if p.Email.Set && p.Email.Value == nil {
 		return fmt.Errorf("'Email' can't be patched to NULL: %w", core_errors.ErrInvalidArgument)
 	}
 

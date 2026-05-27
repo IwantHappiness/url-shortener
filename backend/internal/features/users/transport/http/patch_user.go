@@ -24,7 +24,7 @@ func (r *PatchUserRequest) Validate() error {
 
 		nicknameLen := len([]rune(*r.Nickname.Value))
 
-		if nicknameLen < 3 && nicknameLen > 20 {
+		if nicknameLen < 3 || nicknameLen > 20 {
 			return fmt.Errorf("'Nickname' must be between 3 and 20 characters")
 		}
 	}
@@ -36,7 +36,7 @@ func (r *PatchUserRequest) Validate() error {
 
 		emailLen := len([]rune(*r.Email.Value))
 
-		if emailLen < 3 && emailLen > 20 {
+		if emailLen < 3 || emailLen > 20 {
 			return fmt.Errorf("'Email' must be between 3 and 254 characters")
 		}
 	}

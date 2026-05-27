@@ -11,7 +11,7 @@ func (r *UserRepository) GetUsers(ctx context.Context, limit, offset *int) ([]do
 	ctx, cancel := context.WithTimeout(ctx, r.pool.OpTimeout())
 	defer cancel()
 
-	query := `SELECT id, version, nickname, email, created_at FROM url_shortener.users ORDER BY id ASC LIMIT $1 OFFSET $2`
+	query := `SELECT id, version, nickname, email, created_at FROM url_shortener.users ORDER BY id ASC LIMIT $1 OFFSET $2;`
 	rows, err := r.pool.Query(ctx, query, limit, offset)
 	if err != nil {
 		return nil, fmt.Errorf("select users: %w", err)

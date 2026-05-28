@@ -77,8 +77,5 @@ func (h *UsersHTTPHandler) PatchUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func userPatchFromRequest(req PatchUserRequest) domain.UserPatch {
-	return domain.UserPatch{
-		Nickname: req.Nickname.ToDomain(),
-		Email:    req.Email.ToDomain(),
-	}
+	return domain.NewUserPatch(req.Nickname.ToDomain(), req.Email.ToDomain())
 }

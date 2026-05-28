@@ -5,7 +5,7 @@ export PROJECT_ROOT = $(shell pwd)
 
 run-app:
 	@go mod tidy && \
-	go run ./cmd/api/main.go
+	go run ${PROJECT_ROOT}/cmd/api/main.go
 
 env-up:
 	@docker-compose up -d url-postgres

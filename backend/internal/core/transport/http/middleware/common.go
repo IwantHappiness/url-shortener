@@ -1,7 +1,6 @@
 package http_middleware
 
 import (
-	"context"
 	"net/http"
 	"time"
 
@@ -39,7 +38,7 @@ func Logger(log *logger.Logger) Middleware {
 				zap.String("url", r.URL.String()),
 			)
 
-			ctx := context.WithValue(r.Context(), "log", l)
+			ctx := logger.ToContext(r.Context(), l)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
@@ -70,7 +69,6 @@ func Panic() Middleware {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()
 			log := logger.FromContext(ctx)
-			rw := http_response.NewResponseWriter(w)
 
 			responseHandler := http_response.NewHTTPResponseHandler(log, w)
 

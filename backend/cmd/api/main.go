@@ -8,7 +8,7 @@ import (
 	"syscall"
 
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
-	core_postgres_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool"
+	core_pgx_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool/pgx"
 	http_middleware "github.com/IwantHappiness/url-shortener/internal/core/transport/http/middleware"
 	http_server "github.com/IwantHappiness/url-shortener/internal/core/transport/http/server"
 	users_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/users/repository/postgres"
@@ -30,7 +30,7 @@ func main() {
 
 	log.Debug("initialized postgres connection pool")
 
-	pool, err := core_postgres_pool.NewConnectionPool(ctx, core_postgres_pool.NewConfigMust())
+	pool, err := core_pgx_pool.NewPool(ctx, core_pgx_pool.NewConfigMust())
 	if err != nil {
 		log.Fatal("failed to init Postgres connection pool:", zap.Error(err))
 	}

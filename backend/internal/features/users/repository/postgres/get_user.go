@@ -7,7 +7,7 @@ import (
 
 	"github.com/IwantHappiness/url-shortener/internal/core/domain"
 	core_errors "github.com/IwantHappiness/url-shortener/internal/core/errors"
-	"github.com/jackc/pgx/v5"
+	core_postgres_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool"
 )
 
 func (r *UserRepository) GetUser(ctx context.Context, id int) (domain.User, error) {
@@ -21,7 +21,7 @@ func (r *UserRepository) GetUser(ctx context.Context, id int) (domain.User, erro
 	var user domain.User
 	err := row.Scan(&user.ID, &user.Version, &user.Nickname, &user.Email, &user.CreatedAt)
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		if errors.Is(err, core_postgres_pool.ErrNoRows) {
 			return domain.User{}, fmt.Errorf("user with id='%d': %w", id, core_errors.ErrNotFound)
 		}
 

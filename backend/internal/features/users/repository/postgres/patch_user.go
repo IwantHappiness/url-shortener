@@ -7,7 +7,7 @@ import (
 
 	"github.com/IwantHappiness/url-shortener/internal/core/domain"
 	core_errors "github.com/IwantHappiness/url-shortener/internal/core/errors"
-	"github.com/jackc/pgx/v5"
+	core_postgres_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool"
 )
 
 func (r *UserRepository) PatchUser(ctx context.Context, id int, user domain.User) (domain.User, error) {
@@ -25,7 +25,7 @@ func (r *UserRepository) PatchUser(ctx context.Context, id int, user domain.User
 	var UserModel domain.User
 	err := row.Scan(&UserModel.ID, &UserModel.Version, &UserModel.Nickname, &UserModel.Email, &UserModel.CreatedAt)
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		if errors.Is(err, core_postgres_pool.ErrNoRows) {
 			return domain.User{}, fmt.Errorf("user with id='%d' concurrently accessed: %w", id, core_errors.ErrConflict)
 		}
 

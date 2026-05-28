@@ -1,17 +1,18 @@
 package http_server
 
-import "net/http"
+import (
+	"net/http"
+
+	http_middleware "github.com/IwantHappiness/url-shortener/internal/core/transport/http/middleware"
+)
 
 type Route struct {
-	Method  string
-	Path    string
-	Handler http.HandlerFunc
+	Method     string
+	Path       string
+	Handler    http.HandlerFunc
+	Middleware []http_middleware.Middleware
 }
 
-func NewRoute(method, path string, handler http.HandlerFunc) *Route {
-	return &Route{
-		Method:  method,
-		Path:    path,
-		Handler: handler,
-	}
+func (r *Route) WithMiddleware() http.Handler {
+	return http_middleware.ChainMiddleware(r.Handler, r.Middleware...)
 }

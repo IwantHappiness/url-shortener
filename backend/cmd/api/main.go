@@ -13,6 +13,9 @@ import (
 	core_pgx_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool/pgx"
 	http_middleware "github.com/IwantHappiness/url-shortener/internal/core/transport/http/middleware"
 	http_server "github.com/IwantHappiness/url-shortener/internal/core/transport/http/server"
+	redirect_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/redirect/repository/postgres"
+	redirect_service "github.com/IwantHappiness/url-shortener/internal/features/redirect/service"
+	redirect_transport_http "github.com/IwantHappiness/url-shortener/internal/features/redirect/transport/http"
 	url_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/urls/repository/postgres"
 	url_service "github.com/IwantHappiness/url-shortener/internal/features/urls/service"
 	urls_transport_http "github.com/IwantHappiness/url-shortener/internal/features/urls/transport/http"
@@ -58,6 +61,12 @@ func main() {
 	urlsService := url_service.NewURLService(urlsRepository)
 	urlsTransportHTTP := urls_transport_http.NewUrlsHTTPHandler(urlsService)
 
+	log.Debug("initilized feature", zap.String("feature", "redirect"))
+
+	redirectRepository := redirect_postgres_repository.NewRedirectRepository(pool)
+	redirectService := redirect_service.NewRedirectService(redirectRepository)
+	redirectTransportHTTP := redirect_transport_http.NewRedirectHTTPHandler(redirectService)
+
 	log.Debug("initialized HTTP server")
 
 	httpServer := http_server.NewHTTPServer(
@@ -67,6 +76,8 @@ func main() {
 		http_middleware.Trace(),
 		http_middleware.Panic(),
 	)
+
+	httpServer.RegisterRedirectHandler("/{shortURL}", redirectTransportHTTP)
 
 	apiVersionRouterV1 := http_server.NewAPIVersionRouter(http_server.ApiVersion1)
 	apiVersionRouterV1.RegisterRoute(usersTransportHTTP.Routes()...)

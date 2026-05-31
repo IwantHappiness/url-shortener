@@ -36,6 +36,10 @@ func (s *HTTPServer) RegisterAPIRouter(routers ...*APIVersionRouter) {
 	}
 }
 
+func (s *HTTPServer) RegisterRedirectHandler(pattern string, handler http.Handler) {
+	s.mux.Handle(pattern, handler)
+}
+
 func (s *HTTPServer) Run(ctx context.Context) error {
 	mux := http_middleware.ChainMiddleware(s.mux, s.middleware...)
 

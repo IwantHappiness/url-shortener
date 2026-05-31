@@ -4,7 +4,9 @@ export
 export PROJECT_ROOT = $(shell pwd)
 
 run-app:
-	@go mod tidy && \
+	@export LOGGER_FOLDER=${PROJECT_ROOT}/out/logs && \
+	export POSTGRES_HOST=localhost && \
+	go mod tidy && \
 	go run ${PROJECT_ROOT}/cmd/api/main.go
 
 env-up:

@@ -8,12 +8,12 @@ import (
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
 	http_request "github.com/IwantHappiness/url-shortener/internal/core/transport/http/request"
 	http_response "github.com/IwantHappiness/url-shortener/internal/core/transport/http/response"
-	"github.com/IwantHappiness/url-shortener/internal/core/transport/http/types"
+	http_types "github.com/IwantHappiness/url-shortener/internal/core/transport/http/types"
 )
 
 type PatchUserRequest struct {
-	Nickname types.Nullable[string] `json:"nickname"`
-	Email    types.Nullable[string] `json:"email"`
+	Nickname http_types.Nullable[string] `json:"nickname"`
+	Email    http_types.Nullable[string] `json:"email"`
 }
 
 func (r *PatchUserRequest) Validate() error {

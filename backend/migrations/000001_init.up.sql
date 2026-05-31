@@ -14,7 +14,8 @@ CREATE TABLE url_shortener.users (
 
 CREATE TABLE url_shortener.urls (
     id SERIAL PRIMARY KEY,
-    author_user_id INTEGER REFERENCES url_shortener.users(id) ON DELETE CASCADE,
+    version INTEGER NOT NULL DEFAULT 1,
+    user_id INTEGER REFERENCES url_shortener.users(id) ON DELETE CASCADE,
     original_url TEXT NOT NULL CHECK (char_length(original_url) >= 3),
     short_url VARCHAR(64) UNIQUE NOT NULL CHECK (char_length(short_url) >= 3),
     created_at TIMESTAMPTZ DEFAULT NOW()

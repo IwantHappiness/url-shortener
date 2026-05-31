@@ -6,18 +6,26 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
 	core_pgx_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool/pgx"
 	http_middleware "github.com/IwantHappiness/url-shortener/internal/core/transport/http/middleware"
 	http_server "github.com/IwantHappiness/url-shortener/internal/core/transport/http/server"
+	url_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/urls/repository/postgres"
+	url_service "github.com/IwantHappiness/url-shortener/internal/features/urls/service"
+	urls_transport_http "github.com/IwantHappiness/url-shortener/internal/features/urls/transport/http"
 	users_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/users/repository/postgres"
 	user_service "github.com/IwantHappiness/url-shortener/internal/features/users/service"
 	users_transport_http "github.com/IwantHappiness/url-shortener/internal/features/users/transport/http"
 	"go.uber.org/zap"
 )
 
+var timeZone = time.UTC
+
 func main() {
+	time.Local = timeZone
+
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
 
@@ -28,6 +36,8 @@ func main() {
 	}
 	defer log.Close()
 
+	log.Debug("application time zone", zap.Any("timeZone", timeZone))
+
 	log.Debug("initialized postgres connection pool")
 
 	pool, err := core_pgx_pool.NewPool(ctx, core_pgx_pool.NewConfigMust())
@@ -36,13 +46,17 @@ func main() {
 	}
 	defer pool.Close()
 
-	// log.Debug("Starting URL-Shortener application")
-
 	log.Debug("initialized feature", zap.String("feature", "users"))
 
 	usersRepository := users_postgres_repository.NewUserRepository(pool)
 	usersService := user_service.NewUserService(usersRepository)
 	usersTransportHTTP := users_transport_http.NewUserHTTPHandler(usersService)
+
+	log.Debug("initialized feature", zap.String("feature", "urls"))
+
+	urlsRepository := url_postgres_repository.NewURLRepository(pool)
+	urlsService := url_service.NewURLService(urlsRepository)
+	urlsTransportHTTP := urls_transport_http.NewUrlsHTTPHandler(urlsService)
 
 	log.Debug("initialized HTTP server")
 
@@ -56,6 +70,7 @@ func main() {
 
 	apiVersionRouterV1 := http_server.NewAPIVersionRouter(http_server.ApiVersion1)
 	apiVersionRouterV1.RegisterRoute(usersTransportHTTP.Routes()...)
+	apiVersionRouterV1.RegisterRoute(urlsTransportHTTP.Routes()...)
 
 	// Example of usage apVersionRouterV2 witch separate Middlewares
 	//

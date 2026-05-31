@@ -40,3 +40,22 @@ migrate-action:
 	    -path ./migrations \
 	    -database postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@url-postgres:$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable \
 	    "$(action)"
+
+clean-up:
+	@read -p "Очистить все volume файлы окружения? Опастность утери данных. [Y/n] :" ans; \
+	if [ "$$ans" = "y" ]; then \
+		docker-compose down url-postgres port-forward && \
+		rm -rf ${PROJECT_ROOT}/out/pgdata && \
+		echo "Файлы окружения очищены."; \
+	else \
+		echo "Очистка окружения отменена."; \
+	fi
+
+clean-up-logs:
+	@read -p "Очистить все logs файлы? Опастность утери логов. [Y/n] :" ans; \
+	if [ "$$ans" = "y" ]; then \
+		rm -rf ${PROJECT_ROOT}/out/logs && \
+		echo "Файлы логов очищены."; \
+	else \
+		echo "Очистка логов отменена."; \
+	fi

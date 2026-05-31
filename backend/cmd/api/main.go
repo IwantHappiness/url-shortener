@@ -8,6 +8,7 @@ import (
 	"syscall"
 	"time"
 
+	core_config "github.com/IwantHappiness/url-shortener/internal/core/config"
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
 	core_pgx_pool "github.com/IwantHappiness/url-shortener/internal/core/repository/postgres/pool/pgx"
 	http_middleware "github.com/IwantHappiness/url-shortener/internal/core/transport/http/middleware"
@@ -21,10 +22,9 @@ import (
 	"go.uber.org/zap"
 )
 
-var timeZone = time.UTC
-
 func main() {
-	time.Local = timeZone
+	cfg := core_config.NewConfigMust()
+	time.Local = cfg.TimeZone
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
@@ -36,7 +36,7 @@ func main() {
 	}
 	defer log.Close()
 
-	log.Debug("application time zone", zap.Any("timeZone", timeZone))
+	log.Debug("application time zone", zap.Any("timeZone", time.Local))
 
 	log.Debug("initialized postgres connection pool")
 

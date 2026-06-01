@@ -11,7 +11,7 @@ import (
 )
 
 func (r *RedirectRepository) GetByShortURL(ctx context.Context, shortURL string) (domain.Link, error) {
-	ctx, cancel := context.WithCancel(ctx)
+	ctx, cancel := context.WithTimeout(ctx, r.pool.OpTimeout())
 	defer cancel()
 
 	query := `SELECT original_url, short_url FROM url_shortener.urls WHERE short_url = $1`

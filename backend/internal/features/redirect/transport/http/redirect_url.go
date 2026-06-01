@@ -32,5 +32,5 @@ func (rh *RedirectHTTPHandler) RedirectURL(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	http.Redirect(w, r, link.OriginalURL, http.StatusMovedPermanently)
+	http.Redirect(w, r, link.OriginalURL, http.StatusTemporaryRedirect)
 }

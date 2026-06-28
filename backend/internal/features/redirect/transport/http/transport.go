@@ -13,6 +13,7 @@ type RedirectHTTPHandler struct {
 
 type RedirectService interface {
 	RedirectURL(ctx context.Context, shortCode string) (domain.Link, error)
+	RecordClick(ctx context.Context, shortCode, ip string) error
 }
 
 func NewRedirectHTTPHandler(redirectService RedirectService) *RedirectHTTPHandler {

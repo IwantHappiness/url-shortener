@@ -34,3 +34,25 @@ services:
     depends_on:
       - url-postgres
     restart: always
+
+  swagger:
+    build:
+      context: ${PROJECT_ROOT}
+      dockerfile_inline: |
+        FROM golang:1.26-alpine
+        RUN apk add --no-cache
+        RUN go install github.com/swaggo/swag/cmd/swag@latest
+        WORKDIR /code
+        ENTRYPOINT ["swag"]
+    volumes:
+      - ${PROJECT_ROOT}:/code
+    command:
+      [
+        "init",
+        "-g",
+        "./cmd/api/main.go",
+        "-o",
+        "./docs",
+        "--parseInternal",
+        "--parseDependency",
+      ]

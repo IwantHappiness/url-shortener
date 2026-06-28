@@ -12,6 +12,18 @@ type PatchLinkRequest struct{}
 
 type PatchLinkResponse UrlDTOResponse
 
+// PatchURL		godoc
+// @Summary 		Обновить короткую ссылку
+// @Description 	Сгенерировать новый короткий код для существующей ссылки
+// @Tags 			urls
+// @Accept 			json
+// @Produce 		json
+// @Param 			id path int true "URL ID"
+// @Success 		200 {object} PatchLinkResponse "Обновлённая ссылка"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		404 {object} http_response.ErrorResponse "Not found"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/urls/{id} [patch]
 func (h *UrlsHTTPHandler) PatchURL(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

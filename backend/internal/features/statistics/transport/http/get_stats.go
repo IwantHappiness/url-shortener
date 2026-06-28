@@ -11,6 +11,20 @@ import (
 	http_response "github.com/IwantHappiness/url-shortener/internal/core/transport/http/response"
 )
 
+// GetStats		godoc
+// @Summary 		Получить статистику по ссылке
+// @Description 	Получить статистику переходов по короткой ссылке. Можно указать диапазон дат.
+// @Tags 			statistics
+// @Accept 			json
+// @Produce 		json
+// @Param 			short_url query string true "Short URL code"
+// @Param 			from query string false "Начало диапазона (RFC3339)"
+// @Param 			to query string false "Конец диапазона (RFC3339)"
+// @Success 		200 {object} StatsDTOResponse "Статистика по ссылке"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		404 {object} http_response.ErrorResponse "Not found"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/stats [get]
 func (h *StatsHTTPHandler) GetStats(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

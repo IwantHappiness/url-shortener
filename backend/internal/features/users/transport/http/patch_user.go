@@ -46,6 +46,20 @@ func (r *PatchUserRequest) Validate() error {
 
 type PatchUserResponse UserDTOResponse
 
+// PatchUser		godoc
+// @Summary 		Частично обновить пользователя
+// @Description 	Обновить nickname и/или email пользователя. Отсутствующие поля не меняются.
+// @Tags 			users
+// @Accept 			json
+// @Produce 		json
+// @Param 			id path int true "User ID"
+// @Param 			request body PatchUserRequest true "Patch тело запроса"
+// @Success 		200 {object} PatchUserResponse "Обновлённый пользователь"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		404 {object} http_response.ErrorResponse "Not found"
+// @Failure 		409 {object} http_response.ErrorResponse "Conflict"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/users/{id} [patch]
 func (h *UsersHTTPHandler) PatchUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

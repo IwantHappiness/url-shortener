@@ -10,12 +10,24 @@ import (
 )
 
 type CreateUrlRequest struct {
-	URL    string `json:"url" validate:"required,url"`
-	UserID int    `json:"user_id" validate:"required"`
+	URL    string `json:"url"      validate:"required,url" example:"https://example.com"`
+	UserID int    `json:"user_id"  validate:"required"     example:"1"`
 }
 
 type CreateUrlResponse UrlDTOResponse
 
+// CreateURL		godoc
+// @Summary 		Создать короткую ссылку
+// @Description 	Создать новую короткую ссылку для указанного URL
+// @Tags 			urls
+// @Accept 			json
+// @Produce 		json
+// @Param 			request body CreateUrlRequest true "CreateUrl тело запроса"
+// @Success 		201 {object} CreateUrlResponse "Успешно созданная ссылка"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		409 {object} http_response.ErrorResponse "Conflict"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/urls [post]
 func (h *UrlsHTTPHandler) CreateURL(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

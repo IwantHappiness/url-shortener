@@ -10,6 +10,18 @@ import (
 
 type GetURLResponse UrlDTOResponse
 
+// GetURL		godoc
+// @Summary 		Получить ссылку по ID
+// @Description 	Получить информацию о конкретной короткой ссылке
+// @Tags 			urls
+// @Accept 			json
+// @Produce 		json
+// @Param 			id path int true "URL ID"
+// @Success 		200 {object} GetURLResponse "Информация о ссылке"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		404 {object} http_response.ErrorResponse "Not found"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/urls/{id} [get]
 func (h *UrlsHTTPHandler) GetURL(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

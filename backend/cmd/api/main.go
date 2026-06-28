@@ -26,8 +26,15 @@ import (
 	user_service "github.com/IwantHappiness/url-shortener/internal/features/users/service"
 	users_transport_http "github.com/IwantHappiness/url-shortener/internal/features/users/transport/http"
 	"go.uber.org/zap"
+
+	_ "github.com/IwantHappiness/url-shortener/docs"
 )
 
+// @title 			Golang Url-Shortener
+// @version 		1.0
+// @description 	Url-Shortener Application REST-API scheme
+// @host 			127.0.0.1:8080
+// @BasePath 		/api/v1
 func main() {
 	cfg := core_config.NewConfigMust()
 	time.Local = cfg.TimeZone
@@ -106,6 +113,8 @@ func main() {
 		apiVersionRouterV1,
 		// apiVersionRouterV2
 	)
+
+	httpServer.RegisterSwagger()
 
 	if err := httpServer.Run(ctx); err != nil {
 		log.Error("HTTP server run error", zap.Error(err))

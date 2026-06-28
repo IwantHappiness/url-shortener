@@ -7,11 +7,11 @@ import (
 )
 
 type UserDTOResponse struct {
-	ID        int       `json:"id"`
-	Version   int       `json:"version"`
-	Nickname  string    `json:"nickname"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int       `json:"id"          example:"1"`
+	Version   int       `json:"version"     example:"1"`
+	Nickname  string    `json:"nickname"    example:"Иван Иванов"`
+	Email     string    `json:"email"       example:"ivanov@gmail.com"`
+	CreatedAt time.Time `json:"created_at"  example:"2024-06-28T15:04:05Z07:00"`
 }
 
 func userDTOFromDomain(user domain.User) UserDTOResponse {

@@ -7,12 +7,12 @@ import (
 )
 
 type UrlDTOResponse struct {
-	ID          int       `json:"id"`
-	Version     int       `json:"version"`
-	UserID      int       `json:"user_id"`
-	OriginalURL string    `json:"original_url"`
-	ShortURL    string    `json:"short_url"`
-	CreatedAt   time.Time `json:"created_at"`
+	ID          int       `json:"id"           example:"1"`
+	Version     int       `json:"version"      example:"1"`
+	UserID      int       `json:"user_id"      example:"1"`
+	OriginalURL string    `json:"original_url" example:"https://example.com"`
+	ShortURL    string    `json:"short_url"    example:"abc123"`
+	CreatedAt   time.Time `json:"created_at"   example:"2024-06-28T15:04:05Z07:00"`
 }
 
 func urlDTOfromDomain(link domain.Link) UrlDTOResponse {

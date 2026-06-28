@@ -41,6 +41,9 @@ migrate-action:
 	    -database postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@url-postgres:$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable \
 	    "$(action)"
 
+swagger-gen:
+	@docker-compose run --rm swagger
+
 clean-up:
 	@read -p "Очистить все volume файлы окружения? Опастность утери данных. [Y/n] :" ans; \
 	if [ "$$ans" = "y" ]; then \

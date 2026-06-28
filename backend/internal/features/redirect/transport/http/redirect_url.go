@@ -12,6 +12,18 @@ import (
 	"go.uber.org/zap"
 )
 
+// RedirectURL		godoc
+// @Summary 		Редирект по короткой ссылке
+// @Description 	Перенаправить пользователя на оригинальный URL по короткому коду
+// @Tags 			redirect
+// @Accept 			json
+// @Produce 		json
+// @Param 			shortURL path string true "Short URL code"
+// @Success 		307 "Редирект на оригинальный URL"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		404 {object} http_response.ErrorResponse "Not found"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/{shortURL} [get]
 func (rh *RedirectHTTPHandler) RedirectURL(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

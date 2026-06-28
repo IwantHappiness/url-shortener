@@ -8,6 +8,18 @@ import (
 	http_response "github.com/IwantHappiness/url-shortener/internal/core/transport/http/response"
 )
 
+// DeleteUser		godoc
+// @Summary 		Удалить пользователя
+// @Description 	Удалить пользователя по ID. Каскадно удаляются его ссылки.
+// @Tags 			users
+// @Accept 			json
+// @Produce 		json
+// @Param 			id path int true "User ID"
+// @Success 		204 "Пользователь удалён"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		404 {object} http_response.ErrorResponse "Not found"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/users/{id} [delete]
 func (h *UsersHTTPHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

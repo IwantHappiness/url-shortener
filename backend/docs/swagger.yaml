@@ -1,0 +1,644 @@
+basePath: /api/v1
+definitions:
+  github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse:
+    properties:
+      error:
+        example: 'user with id=''42'': not found'
+        type: string
+      message:
+        example: failed to get user
+        type: string
+    type: object
+  github_com_IwantHappiness_url-shortener_internal_core_transport_http_types.Nullable-string:
+    properties:
+      set:
+        type: boolean
+      value:
+        type: string
+    type: object
+  internal_features_statistics_transport_http.StatsDTOResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      last_clicked_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      original_url:
+        example: https://example.com
+        type: string
+      short_url:
+        example: abc123
+        type: string
+      total_clicks:
+        example: 42
+        type: integer
+      unique_ips:
+        example: 15
+        type: integer
+    type: object
+  internal_features_urls_transport_http.CreateUrlRequest:
+    properties:
+      url:
+        example: https://example.com
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    required:
+    - url
+    - user_id
+    type: object
+  internal_features_urls_transport_http.CreateUrlResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      id:
+        example: 1
+        type: integer
+      original_url:
+        example: https://example.com
+        type: string
+      short_url:
+        example: abc123
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_urls_transport_http.GetURLResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      id:
+        example: 1
+        type: integer
+      original_url:
+        example: https://example.com
+        type: string
+      short_url:
+        example: abc123
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_urls_transport_http.PatchLinkResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      id:
+        example: 1
+        type: integer
+      original_url:
+        example: https://example.com
+        type: string
+      short_url:
+        example: abc123
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_urls_transport_http.UrlDTOResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      id:
+        example: 1
+        type: integer
+      original_url:
+        example: https://example.com
+        type: string
+      short_url:
+        example: abc123
+        type: string
+      user_id:
+        example: 1
+        type: integer
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.CreateUserRequest:
+    properties:
+      email:
+        example: ivanov@gmail.com
+        type: string
+      nickname:
+        example: Иван Иванов
+        maxLength: 20
+        minLength: 3
+        type: string
+    required:
+    - email
+    - nickname
+    type: object
+  internal_features_users_transport_http.CreateUserResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      email:
+        example: ivanov@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      nickname:
+        example: Иван Иванов
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.GetUserResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      email:
+        example: ivanov@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      nickname:
+        example: Иван Иванов
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.PatchUserRequest:
+    properties:
+      email:
+        $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_types.Nullable-string'
+      nickname:
+        $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_types.Nullable-string'
+    type: object
+  internal_features_users_transport_http.PatchUserResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      email:
+        example: ivanov@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      nickname:
+        example: Иван Иванов
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+  internal_features_users_transport_http.UserDTOResponse:
+    properties:
+      created_at:
+        example: 2024-06-28T15:04:05Z07:00
+        type: string
+      email:
+        example: ivanov@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      nickname:
+        example: Иван Иванов
+        type: string
+      version:
+        example: 1
+        type: integer
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact: {}
+  description: Url-Shortener Application REST-API scheme
+  title: Golang Url-Shortener
+  version: "1.0"
+paths:
+  /{shortURL}:
+    get:
+      consumes:
+      - application/json
+      description: Перенаправить пользователя на оригинальный URL по короткому коду
+      parameters:
+      - description: Short URL code
+        in: path
+        name: shortURL
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "307":
+          description: Редирект на оригинальный URL
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Редирект по короткой ссылке
+      tags:
+      - redirect
+  /stats:
+    get:
+      consumes:
+      - application/json
+      description: Получить статистику переходов по короткой ссылке. Можно указать
+        диапазон дат.
+      parameters:
+      - description: Short URL code
+        in: query
+        name: short_url
+        required: true
+        type: string
+      - description: Начало диапазона (RFC3339)
+        in: query
+        name: from
+        type: string
+      - description: Конец диапазона (RFC3339)
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Статистика по ссылке
+          schema:
+            $ref: '#/definitions/internal_features_statistics_transport_http.StatsDTOResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить статистику по ссылке
+      tags:
+      - statistics
+  /urls:
+    get:
+      consumes:
+      - application/json
+      description: Получить список всех ссылок с фильтрацией по user_id и пагинацией
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: user_id
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список ссылок
+          schema:
+            items:
+              $ref: '#/definitions/internal_features_urls_transport_http.UrlDTOResponse'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить список ссылок
+      tags:
+      - urls
+    post:
+      consumes:
+      - application/json
+      description: Создать новую короткую ссылку для указанного URL
+      parameters:
+      - description: CreateUrl тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_urls_transport_http.CreateUrlRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданная ссылка
+          schema:
+            $ref: '#/definitions/internal_features_urls_transport_http.CreateUrlResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Создать короткую ссылку
+      tags:
+      - urls
+  /urls/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удалить короткую ссылку по ID
+      parameters:
+      - description: URL ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Ссылка удалена
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Удалить ссылку
+      tags:
+      - urls
+    get:
+      consumes:
+      - application/json
+      description: Получить информацию о конкретной короткой ссылке
+      parameters:
+      - description: URL ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Информация о ссылке
+          schema:
+            $ref: '#/definitions/internal_features_urls_transport_http.GetURLResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить ссылку по ID
+      tags:
+      - urls
+    patch:
+      consumes:
+      - application/json
+      description: Сгенерировать новый короткий код для существующей ссылки
+      parameters:
+      - description: URL ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновлённая ссылка
+          schema:
+            $ref: '#/definitions/internal_features_urls_transport_http.PatchLinkResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Обновить короткую ссылку
+      tags:
+      - urls
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Получить список всех пользователей с пагинацией
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список пользователей
+          schema:
+            items:
+              $ref: '#/definitions/internal_features_users_transport_http.UserDTOResponse'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить список пользователей
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Создать нового пользователя в системе
+      parameters:
+      - description: CreateUser тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_users_transport_http.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Успешно созданный пользователь
+          schema:
+            $ref: '#/definitions/internal_features_users_transport_http.CreateUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Создать пользователя
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удалить пользователя по ID. Каскадно удаляются его ссылки.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Пользователь удалён
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Удалить пользователя
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Получить информацию о конкретном пользователе
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Информация о пользователе
+          schema:
+            $ref: '#/definitions/internal_features_users_transport_http.GetUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Получить пользователя по ID
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: Обновить nickname и/или email пользователя. Отсутствующие поля
+        не меняются.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patch тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_features_users_transport_http.PatchUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновлённый пользователь
+          schema:
+            $ref: '#/definitions/internal_features_users_transport_http.PatchUserResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/github_com_IwantHappiness_url-shortener_internal_core_transport_http_response.ErrorResponse'
+      summary: Частично обновить пользователя
+      tags:
+      - users
+swagger: "2.0"

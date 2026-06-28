@@ -16,6 +16,9 @@ import (
 	redirect_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/redirect/repository/postgres"
 	redirect_service "github.com/IwantHappiness/url-shortener/internal/features/redirect/service"
 	redirect_transport_http "github.com/IwantHappiness/url-shortener/internal/features/redirect/transport/http"
+	stats_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/statistics/repository/postgres"
+	stats_service "github.com/IwantHappiness/url-shortener/internal/features/statistics/service"
+	stats_transport_http "github.com/IwantHappiness/url-shortener/internal/features/statistics/transport/http"
 	url_postgres_repository "github.com/IwantHappiness/url-shortener/internal/features/urls/repository/postgres"
 	url_service "github.com/IwantHappiness/url-shortener/internal/features/urls/service"
 	urls_transport_http "github.com/IwantHappiness/url-shortener/internal/features/urls/transport/http"
@@ -67,6 +70,12 @@ func main() {
 	redirectService := redirect_service.NewRedirectService(redirectRepository)
 	redirectTransportHTTP := redirect_transport_http.NewRedirectHTTPHandler(redirectService)
 
+	log.Debug("initialized feature", zap.String("feature", "statistics"))
+
+	statsRepository := stats_postgres_repository.NewStatsRepository(pool)
+	statsService := stats_service.NewStatsService(statsRepository)
+	statsTransportHTTP := stats_transport_http.NewStatsHTTPHandler(statsService)
+
 	log.Debug("initialized HTTP server")
 
 	httpServer := http_server.NewHTTPServer(
@@ -82,6 +91,7 @@ func main() {
 	apiVersionRouterV1 := http_server.NewAPIVersionRouter(http_server.ApiVersion1)
 	apiVersionRouterV1.RegisterRoute(usersTransportHTTP.Routes()...)
 	apiVersionRouterV1.RegisterRoute(urlsTransportHTTP.Routes()...)
+	apiVersionRouterV1.RegisterRoute(statsTransportHTTP.Routes()...)
 
 	// Example of usage apVersionRouterV2 witch separate Middlewares
 	//

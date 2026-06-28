@@ -11,6 +11,19 @@ import (
 
 type GetURLsResponse []UrlDTOResponse
 
+// GetURLs		godoc
+// @Summary 		Получить список ссылок
+// @Description 	Получить список всех ссылок с фильтрацией по user_id и пагинацией
+// @Tags 			urls
+// @Accept 			json
+// @Produce 		json
+// @Param 			user_id query int false "ID пользователя"
+// @Param 			limit query int false "limit"
+// @Param 			offset query int false "offset"
+// @Success 		200 {array} UrlDTOResponse "Список ссылок"
+// @Failure 		400 {object} http_response.ErrorResponse "Bad request"
+// @Failure 		500 {object} http_response.ErrorResponse "Internal server error"
+// @Router 			/urls [get]
 func (h *UrlsHTTPHandler) GetURLs(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := logger.FromContext(ctx)

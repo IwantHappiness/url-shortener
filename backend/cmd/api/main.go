@@ -80,6 +80,7 @@ func main() {
 
 	httpServer := http_server.NewHTTPServer(
 		http_server.NewConfigMust(), log,
+		http_middleware.CORS(),
 		http_middleware.RequestId(),
 		http_middleware.Logger(log),
 		http_middleware.Trace(),

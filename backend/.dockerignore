@@ -2,7 +2,6 @@
 .gitignore
 
 out/
-docs/
 .env.example
 Dockerfile
 docker-compose.yml

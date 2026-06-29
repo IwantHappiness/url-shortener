@@ -27,7 +27,8 @@
 ## Common conventions
 
 - Все `POST`/`PATCH`, кроме `PATCH /api/v1/urls/{id}`, работают с JSON body.
-- Временные поля сериализуются из Go `time.Time`, то есть в формате `RFC3339`/`RFC3339Nano`.
+- Временные поля сериализуются в формате `ГГГГ-ММ-ДД` (например `"2024-06-28"`).
+  - Параметры `from`/`to` в `/api/v1/stats` принимаются в том же формате.
 - Все успешные ответы — JSON, кроме:
   - `GET /{shortURL}` → `307 Temporary Redirect`
   - `DELETE ...` → `204 No Content`

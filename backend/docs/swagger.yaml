@@ -19,10 +19,10 @@ definitions:
   internal_features_statistics_transport_http.StatsDTOResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       last_clicked_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       original_url:
         example: https://example.com
@@ -52,7 +52,7 @@ definitions:
   internal_features_urls_transport_http.CreateUrlResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       id:
         example: 1
@@ -73,7 +73,7 @@ definitions:
   internal_features_urls_transport_http.GetURLResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       id:
         example: 1
@@ -94,7 +94,7 @@ definitions:
   internal_features_urls_transport_http.PatchLinkResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       id:
         example: 1
@@ -115,7 +115,7 @@ definitions:
   internal_features_urls_transport_http.UrlDTOResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       id:
         example: 1
@@ -150,7 +150,7 @@ definitions:
   internal_features_users_transport_http.CreateUserResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       email:
         example: ivanov@gmail.com
@@ -168,7 +168,7 @@ definitions:
   internal_features_users_transport_http.GetUserResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       email:
         example: ivanov@gmail.com
@@ -193,7 +193,7 @@ definitions:
   internal_features_users_transport_http.PatchUserResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       email:
         example: ivanov@gmail.com
@@ -211,7 +211,7 @@ definitions:
   internal_features_users_transport_http.UserDTOResponse:
     properties:
       created_at:
-        example: 2024-06-28T15:04:05Z07:00
+        example: "2024-06-28"
         type: string
       email:
         example: ivanov@gmail.com
@@ -276,11 +276,11 @@ paths:
         name: short_url
         required: true
         type: string
-      - description: Начало диапазона (RFC3339)
+      - description: Начало диапазона (ГГГГ-ММ-ДД)
         in: query
         name: from
         type: string
-      - description: Конец диапазона (RFC3339)
+      - description: Конец диапазона (ГГГГ-ММ-ДД)
         in: query
         name: to
         type: string

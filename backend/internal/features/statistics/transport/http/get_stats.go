@@ -8,6 +8,7 @@ import (
 
 	core_errors "github.com/IwantHappiness/url-shortener/internal/core/errors"
 	"github.com/IwantHappiness/url-shortener/internal/core/logger"
+	http_request "github.com/IwantHappiness/url-shortener/internal/core/transport/http/request"
 	http_response "github.com/IwantHappiness/url-shortener/internal/core/transport/http/response"
 )
 
@@ -18,8 +19,8 @@ import (
 // @Accept 			json
 // @Produce 		json
 // @Param 			short_url query string true "Short URL code"
-// @Param 			from query string false "Начало диапазона (RFC3339)"
-// @Param 			to query string false "Конец диапазона (RFC3339)"
+// @Param 			from query string false "Начало диапазона (ГГГГ-ММ-ДД)"
+// @Param 			to query string false "Конец диапазона (ГГГГ-ММ-ДД)"
 // @Success 		200 {object} StatsDTOResponse "Статистика по ссылке"
 // @Failure 		400 {object} http_response.ErrorResponse "Bad request"
 // @Failure 		404 {object} http_response.ErrorResponse "Not found"
@@ -67,29 +68,15 @@ func getShortURLFromToQueryParams(r *http.Request) (*string, *time.Time, *time.T
 		shortURL = &rawShortURL
 	}
 
-	from, err := parseTimeQueryParam(query.Get(fromQueryParamKey), fromQueryParamKey)
+	from, err := http_request.GetDateQueryParam(r, fromQueryParamKey)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
-	to, err := parseTimeQueryParam(query.Get(toQueryParamKey), toQueryParamKey)
+	to, err := http_request.GetDateQueryParam(r, toQueryParamKey)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
 	return shortURL, from, to, nil
-}
-
-func parseTimeQueryParam(rawValue, key string) (*time.Time, error) {
-	rawValue = strings.TrimSpace(rawValue)
-	if rawValue == "" {
-		return nil, nil
-	}
-
-	parsedAt, err := time.Parse(time.RFC3339, rawValue)
-	if err != nil {
-		return nil, fmt.Errorf("param='%s' by key='%s' not a valid RFC3339 time: %v: %w", rawValue, key, err, core_errors.ErrInvalidArgument)
-	}
-
-	return &parsedAt, nil
 }

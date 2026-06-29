@@ -1,18 +1,17 @@
 package urls_transport_http
 
 import (
-	"time"
-
 	"github.com/IwantHappiness/url-shortener/internal/core/domain"
+	http_types "github.com/IwantHappiness/url-shortener/internal/core/transport/http/types"
 )
 
 type UrlDTOResponse struct {
-	ID          int       `json:"id"           example:"1"`
-	Version     int       `json:"version"      example:"1"`
-	UserID      int       `json:"user_id"      example:"1"`
-	OriginalURL string    `json:"original_url" example:"https://example.com"`
-	ShortURL    string    `json:"short_url"    example:"abc123"`
-	CreatedAt   time.Time `json:"created_at"   example:"2024-06-28T15:04:05Z07:00"`
+	ID          int                 `json:"id"           example:"1"`
+	Version     int                 `json:"version"      example:"1"`
+	UserID      int                 `json:"user_id"      example:"1"`
+	OriginalURL string              `json:"original_url" example:"https://example.com"`
+	ShortURL    string              `json:"short_url"    example:"abc123"`
+	CreatedAt   http_types.DateOnly `json:"created_at"   example:"2024-06-28"`
 }
 
 func urlDTOfromDomain(link domain.Link) UrlDTOResponse {
@@ -22,7 +21,7 @@ func urlDTOfromDomain(link domain.Link) UrlDTOResponse {
 		UserID:      link.UserID,
 		OriginalURL: link.OriginalURL,
 		ShortURL:    link.ShortURL,
-		CreatedAt:   link.CreatedAt,
+		CreatedAt:   http_types.DateOnly(link.CreatedAt),
 	}
 }
 

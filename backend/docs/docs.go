@@ -38,13 +38,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Начало диапазона (RFC3339)",
+                        "description": "Начало диапазона (ГГГГ-ММ-ДД)",
                         "name": "from",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Конец диапазона (RFC3339)",
+                        "description": "Конец диапазона (ГГГГ-ММ-ДД)",
                         "name": "to",
                         "in": "query"
                     }
@@ -660,11 +660,11 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "last_clicked_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "original_url": {
                     "type": "string",
@@ -706,7 +706,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "id": {
                     "type": "integer",
@@ -735,7 +735,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "id": {
                     "type": "integer",
@@ -764,7 +764,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "id": {
                     "type": "integer",
@@ -793,7 +793,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "id": {
                     "type": "integer",
@@ -841,7 +841,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "email": {
                     "type": "string",
@@ -866,7 +866,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "email": {
                     "type": "string",
@@ -902,7 +902,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "email": {
                     "type": "string",
@@ -927,7 +927,7 @@ const docTemplate = `{
             "properties": {
                 "created_at": {
                     "type": "string",
-                    "example": "2024-06-28T15:04:05Z07:00"
+                    "example": "2024-06-28"
                 },
                 "email": {
                     "type": "string",
